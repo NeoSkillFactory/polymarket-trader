@@ -1,0 +1,68 @@
+{
+  "strategies": {
+    "sentiment-momentum": {
+      "description": "Trades based on positive sentiment momentum combined with price trend confirmation",
+      "parameters": {
+        "sentimentWeight": 0.6,
+        "priceWeight": 0.4,
+        "minSentimentScore": 0.6,
+        "minPriceChange": 0.02,
+        "holdPeriodMs": 3600000,
+        "maxExposure": 0.2
+      },
+      "rules": [
+        {
+          "condition": "sentiment_score > minSentimentScore AND price_change > minPriceChange",
+          "action": "BUY",
+          "sizing": "proportional_to_confidence"
+        },
+        {
+          "condition": "sentiment_score < (1 - minSentimentScore) AND price_change < -minPriceChange",
+          "action": "SELL",
+          "sizing": "proportional_to_confidence"
+        }
+      ]
+    },
+    "contrarian": {
+      "description": "Takes positions against extreme sentiment readings, betting on mean reversion",
+      "parameters": {
+        "sentimentWeight": 0.7,
+        "priceWeight": 0.3,
+        "extremeThreshold": 0.85,
+        "minPriceDeviation": 0.05,
+        "holdPeriodMs": 7200000,
+        "maxExposure": 0.15
+      },
+      "rules": [
+        {
+          "condition": "sentiment_score > extremeThreshold AND price > 0.8",
+          "action": "SELL",
+          "sizing": "fixed_small"
+        },
+        {
+          "condition": "sentiment_score < (1 - extremeThreshold) AND price < 0.2",
+          "action": "BUY",
+          "sizing": "fixed_small"
+        }
+      ]
+    },
+    "conservative": {
+      "description": "Low-risk strategy that only trades on very strong signals with tight stop losses",
+      "parameters": {
+        "sentimentWeight": 0.5,
+        "priceWeight": 0.5,
+        "minSentimentScore": 0.75,
+        "minPriceChange": 0.03,
+        "holdPeriodMs": 1800000,
+        "maxExposure": 0.1
+      },
+      "rules": [
+        {
+          "condition": "sentiment_score > minSentimentScore AND price_change > minPriceChange AND volume > avg_volume",
+          "action": "BUY",
+          "sizing": "minimum"
+        }
+      ]
+    }
+  }
+}

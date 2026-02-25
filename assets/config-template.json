@@ -1,0 +1,34 @@
+{
+  "apiBaseUrl": "https://gamma-api.polymarket.com",
+  "clobApiUrl": "https://clob.polymarket.com",
+  "mode": "dry-run",
+  "polling": {
+    "intervalMs": 30000,
+    "maxRetries": 3,
+    "retryDelayMs": 5000
+  },
+  "trading": {
+    "strategy": "sentiment-momentum",
+    "maxPositionSize": 100,
+    "minConfidence": 0.65,
+    "riskLimit": 0.1,
+    "stopLoss": 0.05,
+    "takeProfit": 0.15
+  },
+  "sentiment": {
+    "sources": ["market-description", "market-comments"],
+    "positiveThreshold": 0.6,
+    "negativeThreshold": 0.4,
+    "decayHalfLifeMs": 3600000
+  },
+  "markets": {
+    "watchlist": [],
+    "maxConcurrent": 10,
+    "minLiquidity": 1000
+  },
+  "reporting": {
+    "enabled": true,
+    "format": "json",
+    "outputDir": "./reports"
+  }
+}

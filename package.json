@@ -1,0 +1,19 @@
+{
+  "name": "polymarket-trader",
+  "version": "1.0.0",
+  "description": "Automated Polymarket monitoring and trading based on real-time sentiment analysis",
+  "main": "scripts/trader.js",
+  "scripts": {
+    "start": "node scripts/trader.js",
+    "monitor": "node scripts/market-monitor.js",
+    "test": "node --test scripts/*.test.js"
+  },
+  "keywords": [
+    "polymarket",
+    "trading",
+    "sentiment-analysis",
+    "automation",
+    "openclaw"
+  ],
+  "license": "MIT"
+}
