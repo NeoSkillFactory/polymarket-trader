@@ -2,26 +2,24 @@
 
 ![Audit](https://img.shields.io/badge/audit%3A%20PASS-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue) ![OpenClaw](https://img.shields.io/badge/OpenClaw-skill-orange)
 
-> A skill that monitors Polymarket markets and executes trades based on real-time sentiment analysis to maximize profit potential
+> Automated Polymarket monitoring and trading based on real-time sentiment analysis
 
-I don't have context about what you were working on before. Could you tell me:
+## Features
 
-1. What task you were trying to complete?
-2. What happened (error, timeout, or other issue)?
-3. What files or context you were working with?
+- Monitor Polymarket markets for real-time price movements and market data via the public CLOB API
+- Analyze sentiment from configurable text sources to generate trading signals
+- Execute automated trades based on predefined algorithms and risk parameters
+- Provide CLI interface for direct use and manual override
+- Integrate seamlessly with OpenClaw agent workflows
+- Handle errors gracefully and provide meaningful feedback to users
+- Generate trading reports and performance analytics
+- Support dry-run mode for safe strategy testing
 
-This will help me pick up exactly where you left off.
+## GitHub
 
-## OpenClaw Marketplace
+Source code: [github.com/NeoSkillFactory/polymarket-trader](https://github.com/NeoSkillFactory/polymarket-trader)
 
-This skill is available on [ClawHub](https://clawhub.ai) — the OpenClaw skill marketplace.
-Install it in any OpenClaw agent workspace with:
-
-```bash
-clawhub install polymarket-trader
-```
-
-**Recommended price when commercial:** $79 USD
+**Price suggestion:** $79 USD
 
 ## License
 
