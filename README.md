@@ -19,8 +19,6 @@
 
 Source code: [github.com/NeoSkillFactory/polymarket-trader](https://github.com/NeoSkillFactory/polymarket-trader)
 
-**Price suggestion:** $79 USD
-
 ## License
 
 MIT © NeoSkillFactory
