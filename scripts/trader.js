@@ -81,7 +81,8 @@ function calculatePositionSize(action, sentiment, params) {
   return Math.round(capped * 1000) / 1000;
 }
 
-function formatSignalReport(signals) {
+function formatSignalReport(signals, config) {
+  const mode = (config && config.mode) || "dry-run";
   const lines = [
     "=".repeat(60),
     "POLYMARKET TRADER — TRADE SIGNALS",
@@ -111,7 +112,11 @@ function formatSignalReport(signals) {
 
   lines.push("");
   lines.push("=".repeat(60));
-  lines.push("MODE: DRY-RUN — No real trades executed");
+  if (mode === "dry-run") {
+    lines.push("MODE: DRY-RUN — No real trades executed");
+  } else {
+    lines.push("MODE: LIVE — Trades will be executed");
+  }
   lines.push("=".repeat(60));
 
   return lines.join("\n");
@@ -202,9 +207,18 @@ async function run(argv) {
 
   // Analyze each market
   const signals = [];
+  const minConfidence = config.trading.minConfidence || 0;
   for (const market of markets) {
     const sentiment = sentimentAnalyzer.aggregateSentiment(market, config);
     const signal = generateSignal(market, sentiment, strategy);
+
+    // Downgrade to HOLD if confidence is below threshold
+    if (signal.action !== "HOLD" && sentiment.confidence < minConfidence) {
+      signal.action = "HOLD";
+      signal.reason = `Confidence too low (${(sentiment.confidence * 100).toFixed(1)}% < ${(minConfidence * 100).toFixed(1)}% threshold)`;
+      signal.suggestedSize = 0;
+    }
+
     signals.push(signal);
 
     // Print individual sentiment report
@@ -213,7 +227,7 @@ async function run(argv) {
   }
 
   // Print trade signals
-  console.log(formatSignalReport(signals));
+  console.log(formatSignalReport(signals, config));
 
   const summary = generateSummaryReport(signals, config, strategy);
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);

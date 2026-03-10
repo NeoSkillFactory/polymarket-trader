@@ -118,19 +118,30 @@ describe("trader", () => {
   });
 
   describe("formatSignalReport", () => {
-    it("formats report with signals", () => {
+    it("formats report with signals in dry-run mode", () => {
       const signals = [
         { action: "BUY", market: "Test?", reason: "test", sentiment: 0.7, confidence: 0.8, suggestedSize: 0.1 },
         { action: "SELL", market: "Other?", reason: "test", sentiment: 0.3, confidence: 0.6, suggestedSize: 0.05 },
         { action: "HOLD", market: "Neutral?", reason: "test", sentiment: 0.5, confidence: 0.3, suggestedSize: 0 },
       ];
-      const report = formatSignalReport(signals);
+      const report = formatSignalReport(signals, { mode: "dry-run" });
       assert.ok(report.includes("BUY signals: 1"));
       assert.ok(report.includes("SELL signals: 1"));
       assert.ok(report.includes("HOLD: 1"));
       assert.ok(report.includes("DRY-RUN"));
       assert.ok(report.includes(">>>"));
       assert.ok(report.includes("<<<"));
+    });
+
+    it("shows live mode label", () => {
+      const report = formatSignalReport([], { mode: "live" });
+      assert.ok(report.includes("LIVE"));
+      assert.ok(!report.includes("DRY-RUN"));
+    });
+
+    it("defaults to dry-run when no config", () => {
+      const report = formatSignalReport([]);
+      assert.ok(report.includes("DRY-RUN"));
     });
 
     it("handles empty signals", () => {
